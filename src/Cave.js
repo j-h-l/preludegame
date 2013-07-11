@@ -35,43 +35,43 @@ var Cave = cc.Layer.extend({
 
     initCaves: function (caveDef) {
         var s = cc.Director.getInstance().getWinSize();
-        var caveEntityDef = caveDef || {
-            bodyType: "kinematic",
-            position: {
-                x: null,
-                y: null
-            },
-            setFix: {
-                // density: 1.0,
-                friction: 0.5,
-                restitution: 1.2
-            },
-            shape: "rectangle",
-            hx: s.width / 2,
-            hy: 30,
-            userData: null
-        };
-        caveEntityDef.position = {
-            x: s.width / 3,
-            y: s.height
-        };
-        caveEntityDef.hx = (s.width / 2);// + (this.sizeOfObject);
-        caveEntityDef.hy = 10;
-        caveEntityDef.userData = {
-            tag: Tags.top1,
-            offset: caveEntityDef.position,
-            nodename: "alphaupper"
-        };
+        // var caveEntityDef = caveDef || {
+        //     bodyType: "kinematic",
+        //     position: {
+        //         x: null,
+        //         y: null
+        //     },
+        //     setFix: {
+        //         // density: 1.0,
+        //         friction: 0.5,
+        //         restitution: 1.2
+        //     },
+        //     shape: "rectangle",
+        //     hx: s.width / 2,
+        //     hy: 30,
+        //     userData: null
+        // };
+        // caveEntityDef.position = {
+        //     x: s.width / 3,
+        //     y: s.height
+        // };
+        // caveEntityDef.hx = (s.width / 2);// + (this.sizeOfObject);
+        // caveEntityDef.hy = 10;
+        // caveEntityDef.userData = {
+        //     tag: Tags.top1,
+        //     offset: caveEntityDef.position,
+        //     nodename: "alphaupper"
+        // };
 
-        caveEntityDef.position = {
-            x: s.width / 3,
-            y: 1
-        };
-        caveEntityDef.userData = {
-            tag: Tags.bottom1,
-            offset: caveEntityDef.position,
-            nodename: "alphalower"
-        };
+        // caveEntityDef.position = {
+        //     x: s.width / 3,
+        //     y: 1
+        // };
+        // caveEntityDef.userData = {
+        //     tag: Tags.bottom1,
+        //     offset: caveEntityDef.position,
+        //     nodename: "alphalower"
+        // };
 
         var customDef = {
             bodyType: "kinematic",
@@ -97,7 +97,6 @@ var Cave = cc.Layer.extend({
                     x: s.width/3,
                     y: 1
                 },
-                // nodename: "alphaupper",
                 nodename: "alphalower",
                 drawnode: null,
                 verts: []
@@ -105,7 +104,7 @@ var Cave = cc.Layer.extend({
         };
         
         // alpha lower
-        customDef = this.testNoisyVertices(customDef);
+        customDef = this.noisyVertices(customDef);
         this.caves.alpha.lower = this.getParent().getChildByTag(Tags.worldtag).addBody(customDef);
         // cc.log(this.getParent().getChildByTag(Tags.worldtag).convertToPixels(this.caves.alpha.lower.GetPosition()));
         this.caves.alpha.lower.SetLinearVelocity(new b2Vec2(-this.currentSpeed, 0));
@@ -122,27 +121,43 @@ var Cave = cc.Layer.extend({
             drawnode: null,
             verts: []
         };
-        customDef = this.testNoisyVertices(customDef);
+        customDef = this.noisyVertices(customDef);
         this.caves.alpha.upper = this.getParent().getChildByTag(Tags.worldtag).addBody(customDef);
         this.caves.alpha.upper.SetLinearVelocity(new b2Vec2(-this.currentSpeed, 0));
 
-        // this.caves.alpha.lower = this.getParent().getChildByTag(Tags.worldtag).addBody(caveEntityDef);
+        // beta lower
+        customDef.position = {
+            x: (s.width* 4 / 3),// + s.width,
+            y: 1
+        };
+        customDef.userData = {
+            tag: Tags.bottom2,
+            offset: customDef.position,
+            nodename: "betalower",
+            verts: []
+        };
+        customDef = this.noisyVertices(customDef);
+        this.caves.beta.lower = this.getParent().getChildByTag(Tags.worldtag).addBody(customDef);
+        this.caves.beta.lower.SetLinearVelocity(new b2Vec2(-this.currentSpeed, 0));
 
+        // beta upper
+        customDef.position = {
+            x: (s.width * 4 / 3),//+ s.width,
+            y: s.height
+        };
+        customDef.userData = {
+            tag: Tags.top2,
+            offset: customDef.position,
+            nodename: "betaupper",
+            verts: []
+        };
+        customDef = this.noisyVertices(customDef);
+        this.caves.beta.upper = this.getParent().getChildByTag(Tags.worldtag).addBody(customDef);
+        this.caves.beta.upper.SetLinearVelocity(new b2Vec2(-this.currentSpeed, 0));
         this.drawTunnel();
-        // this.testDrawnode();
     },
 
-    triangle: function (entityDef) {
-        var s = cc.Director.getInstance().getWinSize();
-        var startingPoint = cc.p((s.width /3)-5, (s.height *2 /3));
-        var nextPoint = cc.p((s.width /3)+5, (s.height *2 /3));
-        var lastPoint = cc.p((s.width /3), (s.height*2/3) + 7);
-        entityDef.userData.verts = [startingPoint, nextPoint, lastPoint];
-
-        return entityDef;
-    },
-
-    testNoisyVertices: function (entityDef) {
+    noisyVertices: function (entityDef) {
         // returns entityDef with custom vertices
         var s = cc.Director.getInstance().getWinSize();
 
@@ -217,12 +232,12 @@ var Cave = cc.Layer.extend({
                     // var offset = world.convertToPixels(currentCaveData.offset);
                     // var currentPos = this.getChildByTag(nodename).getPosition();
                     var bodyPosition = this.caves[alphaBeta][ab].GetPosition();
-                    // cc.log(bodyPosition.x * world.MtoPRatio);
-                    if (Math.abs(bodyPosition.x) > ((s.width * 2/3) / world.MtoPRatio)) {
+                    cc.log(bodyPosition.x * world.MtoPRatio);
+                    if (bodyPosition.x < -((s.width  /2) / world.MtoPRatio)) {
                         // reposition the Tunnel
                         // this.recycleTunnel(this.caves[alphaBeta]);
 
-                        var newPosition = new b2Vec2(bodyPosition.x + s.width/world.MtoPRatio, bodyPosition.y);
+                        var newPosition = new b2Vec2(bodyPosition.x + 2*s.width/world.MtoPRatio, bodyPosition.y);
                         this.caves[alphaBeta][ab].SetPosition(newPosition);
                         // cc.log("tada");
                     }
@@ -262,49 +277,52 @@ var Cave = cc.Layer.extend({
         var physicsManager = this.getParent().getChildByTag(Tags.worldtag);
         var bodies = physicsManager.boxworld.GetBodyList();
 
+        var c;
+        for (c in this.caves){
         var e;
-        for (e in this.caves.alpha) {
-            if (this.caves.alpha[e] !== null) {
-            var partCave = this.caves.alpha[e];
-            var partTag = partCave.m_fixtureList.m_userData.tag;
-            var partOffset = physicsManager.convertToMeters(partCave.m_fixtureList.m_userData.offset);
-            var partNode = partCave.m_fixtureList.m_userData.nodename;
+        for (e in this.caves[c]) {
+            if (this.caves[c][e] !== null) {
+                var partCave = this.caves[c][e];
+                var partTag = partCave.m_fixtureList.m_userData.tag;
+                var partOffset = physicsManager.convertToMeters(partCave.m_fixtureList.m_userData.offset);
+                var partNode = partCave.m_fixtureList.m_userData.nodename;
 
-            var poly = cc.DrawNode.create();
-            this.addChild(poly, Zorder.platform, partNode);
+                var poly = cc.DrawNode.create();
+                this.addChild(poly, Zorder.platform, partNode);
 
-            // cc.log("DrawTunnel, Position:");
-            // cc.log(partCave.GetPosition());
-            var b = partCave.m_fixtureList;
-            if (b.m_shape !== null && b.m_shape.b2PolygonShape !== undefined) {
-                var currentBodyPos = partCave.GetPosition();
-                // cc.log(currentBodyPos);
-                var vertices = b.m_shape.m_vertices;
-                var ccpArray = [];
-                var eachV = 0;
-                for (eachV ; eachV < vertices.length ; eachV++) {
-                    var absoluteVect = {};
-                    if (vertices.length <= 4) {
-                        absoluteVec = {
-                            x: currentBodyPos.x + vertices[eachV].x,
-                            y: currentBodyPos.y + vertices[eachV].y
-                        };
-                        // absoluteVec = vertices[eachV];
+                // cc.log("DrawTunnel, Position:");
+                // cc.log(partCave.GetPosition());
+                var b = partCave.m_fixtureList;
+                if (b.m_shape !== null && b.m_shape.b2PolygonShape !== undefined) {
+                    var currentBodyPos = partCave.GetPosition();
+                    // cc.log(currentBodyPos);
+                    var vertices = b.m_shape.m_vertices;
+                    var ccpArray = [];
+                    var eachV = 0;
+                    for (eachV ; eachV < vertices.length ; eachV++) {
+                        var absoluteVect = {};
+                        if (vertices.length <= 4) {
+                            absoluteVec = {
+                                x: currentBodyPos.x + vertices[eachV].x,
+                                y: currentBodyPos.y + vertices[eachV].y
+                            };
+                            // absoluteVec = vertices[eachV];
+                        }
+                        else {
+                            absoluteVec = vertices[eachV];
+                        }
+                        var vert = physicsManager.convertToPixels(absoluteVec);
+                        ccpArray.push(vert);
                     }
-                    else {
-                        absoluteVec = vertices[eachV];
-                    }
-                    var vert = physicsManager.convertToPixels(absoluteVec);
-                    ccpArray.push(vert);
+                    // cc.log(ccpArray);
+                    poly.drawPoly(ccpArray, cc.c4f(1,0,1,1), 1, cc.c4f(0,1,0,1));
+                    // cc.log("inside drawTunnel (ccpArray): (relative to drawnode)");
+                    // cc.log(ccpArray);
+                    // cc.log("drawnode position");
+                    // cc.log(poly.getPosition());
                 }
-                // cc.log(ccpArray);
-                poly.drawPoly(ccpArray, cc.c4f(1,0,1,1), 1, cc.c4f(0,1,0,1));
-                // cc.log("inside drawTunnel (ccpArray): (relative to drawnode)");
-                // cc.log(ccpArray);
-                // cc.log("drawnode position");
-                // cc.log(poly.getPosition());
             }
-            }
+        }
         }
 
         this._cavesDrawn = true;
