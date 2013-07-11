@@ -28,7 +28,7 @@
     var d = document;
     var c = {
         COCOS2D_DEBUG:2, //0 to turn debug off, 1 for basic debug, and 2 for full debug
-        //CLASS_RELEASE_MODE:true,  // improved version of resig's js inheritance. performance increase but cannot set breakpoint with objects that use this._super()
+        // CLASS_RELEASE_MODE:true,  // improved version of resig's js inheritance. performance increase but cannot set breakpoint with objects that use this._super()
         box2d:true,
         chipmunk:false,
         showFPS:true,
@@ -39,12 +39,16 @@
         //SingleEngineFile:'', // remember to use min ver after done dev'ing
         appFiles:[
             'src/resource.js',
-            // 'src/myApp.js',//add your own files in order here
-            'src/IntroMenu.js',
+            // 'src/myApp.js'//add your own files in order here
+            // 'src/IntroMenu.js'
             'src/Playground.js',
-            'src/StageSelect.js',
+            // 'src/StageSelect.js',
             'src/boxWorldSetup.js',
-            'src/ball.js'
+            'src/ball.js',
+            'src/Cave.js',
+            // 'src/Box2dDebug.js',
+            'src/Misc.js'
+            // 'src/HUD.js'
         ]
     };
 

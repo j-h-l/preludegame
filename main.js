@@ -38,6 +38,8 @@ var cocos2dApp = cc.Application.extend({
         // initialize director
         var director = cc.Director.getInstance();
 
+        // var canvasSize = document.getElementById(this.config.tag);
+        // var screenSize = cc.size(canvasSize.width, canvasSize.height);
         var screenSize = cc.EGLView.getInstance().getFrameSize();
         var resourceSize = cc.size(800, 450);
         var designSize = cc.size(800, 450);
@@ -84,4 +86,6 @@ var cocos2dApp = cc.Application.extend({
     }
 });
 
-var myApp = new cocos2dApp(myIntro);
+// var myApp = new cocos2dApp(myIntro);
+var myApp = new cocos2dApp(myPlayground);
+// var myApp = new cocos2dApp(MyScene);
