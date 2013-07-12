@@ -39,16 +39,16 @@
         //SingleEngineFile:'', // remember to use min ver after done dev'ing
         appFiles:[
             'src/resource.js',
-            // 'src/myApp.js'//add your own files in order here
-            // 'src/IntroMenu.js'
             'src/Playground.js',
-            // 'src/StageSelect.js',
             'src/boxWorldSetup.js',
             'src/ball.js',
             'src/Cave.js',
+            'src/Misc.js',
+            'src/HUD.js'
             // 'src/Box2dDebug.js',
-            'src/Misc.js'
-            // 'src/HUD.js'
+            // 'src/IntroMenu.js',
+            // 'src/StageSelect.js',
+            // 'src/myApp.js'
         ]
     };
 

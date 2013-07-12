@@ -3,6 +3,7 @@ Tags = {
     worldtag: 90,
     cavestag: 91,
     playgroundtag: 92,
+    hud: 93,
 
     // entity
     balltag: 88,

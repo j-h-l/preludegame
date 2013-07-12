@@ -155,12 +155,20 @@ var PhysicsManager = cc.Layer.extend({
             2                 //position iterations
         );
         // this.showContact();
+        // this.checkContact();
         this.boxworld.ClearForces();
+    },
+
+    checkContact: function () {
+        var con = this.boxworld.GetContactList();
+        if (con !== null && con.IsTouching()) {
+            this.getParent().onHit();
+        }
     },
 
     showContact: function () {
         var con = this.boxworld.GetContactList();
-        if (con !== null) {
+        if (con !== null && con.IsTouching()) {
             cc.log(con);
         }
     }

@@ -35,43 +35,6 @@ var Cave = cc.Layer.extend({
 
     initCaves: function (caveDef) {
         var s = cc.Director.getInstance().getWinSize();
-        // var caveEntityDef = caveDef || {
-        //     bodyType: "kinematic",
-        //     position: {
-        //         x: null,
-        //         y: null
-        //     },
-        //     setFix: {
-        //         // density: 1.0,
-        //         friction: 0.5,
-        //         restitution: 1.2
-        //     },
-        //     shape: "rectangle",
-        //     hx: s.width / 2,
-        //     hy: 30,
-        //     userData: null
-        // };
-        // caveEntityDef.position = {
-        //     x: s.width / 3,
-        //     y: s.height
-        // };
-        // caveEntityDef.hx = (s.width / 2);// + (this.sizeOfObject);
-        // caveEntityDef.hy = 10;
-        // caveEntityDef.userData = {
-        //     tag: Tags.top1,
-        //     offset: caveEntityDef.position,
-        //     nodename: "alphaupper"
-        // };
-
-        // caveEntityDef.position = {
-        //     x: s.width / 3,
-        //     y: 1
-        // };
-        // caveEntityDef.userData = {
-        //     tag: Tags.bottom1,
-        //     offset: caveEntityDef.position,
-        //     nodename: "alphalower"
-        // };
 
         var customDef = {
             bodyType: "kinematic",
@@ -232,7 +195,7 @@ var Cave = cc.Layer.extend({
                     // var offset = world.convertToPixels(currentCaveData.offset);
                     // var currentPos = this.getChildByTag(nodename).getPosition();
                     var bodyPosition = this.caves[alphaBeta][ab].GetPosition();
-                    cc.log(bodyPosition.x * world.MtoPRatio);
+                    // cc.log(bodyPosition.x * world.MtoPRatio);
                     if (bodyPosition.x < -((s.width  /2) / world.MtoPRatio)) {
                         // reposition the Tunnel
                         // this.recycleTunnel(this.caves[alphaBeta]);

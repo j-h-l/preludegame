@@ -1,6 +1,7 @@
 var Playground = cc.Layer.extend({
     myPhysicsManager: null,
     myBall: null,
+    timeplayed: null,
 
     // ctor: function () {
         // this._super();
@@ -10,10 +11,10 @@ var Playground = cc.Layer.extend({
     this._super();
     var s = cc.Director.getInstance().getWinSize();
 
-    var imin = cc.LabelTTF.create("I'm in Playground", "Impact", 38);
+    var imin = cc.LabelTTF.create("Click to start your journey...", "Impact", 38);
     imin.setPosition(cc.p(s.width/2, s.height/2));
     // this.addChild(imin, 1);
-    this.addChild(imin, Zorder.background);
+    this.addChild(imin, Zorder.hud, "click");
 
     // var something = cc.LabelTTF.create("Second item", "Impact", 38);
     // something.setPosition(cc.p(s.width/2, 30));
@@ -43,29 +44,35 @@ var Playground = cc.Layer.extend({
   },
 
   update: function (dt) {
-      // cc.log("in update function");
+      // update physics manager
       this.myPhysicsManager.stepForward();
+
+      // update Ball
       this.myBall.updateEntity();
 
+      // update tunnel drawing
       var tun = this.getParent().getChildByTag(Tags.cavestag);
       tun.updateTunnel();
-      // this.myPhysicsManager.this
+      
+      // update timeplayed
+      this.timeplayed += dt;
+      var dist = this.getParent().getChildByTag(Tags.hud);
+      dist.updateDist(this.timeplayed.toFixed(3));
+      // cc.log(this.timeplayed.toFixed(3));
+
+      this.myPhysicsManager.checkContact();
   },
 
   onTouchesBegan: function (ev) {
-      // this.myBall.physObj.SetLinearVelocity(new b2Vec2(0,5));
-      this.myBall.physObj.ApplyImpulse(new b2Vec2(0,9), this.myBall.physObj.GetPosition());
-  },
+      if (this.getScheduler().isTargetPaused(this) && this.timeplayed === null) {
+          this.resumeSchedulerAndActions();
+          this.removeChildByTag("click");
+          this.getParent().getChildByTag(Tags.hud).startDisplayingDistance();
 
-  // addBall: function (pos) {
-  //     var ball = new Ball();
-  //     ball.init(pos, this.myPhysicsManager);
-  //     ball.setTag(Tags.balltag);
-  //     var linVel = new b2Vec2(5,4);
-  //     ball.physObj.SetLinearVelocity(linVel);
-  //     this.addChild(ball, Zorder.player);
-  //     cc.log("addBall");
-  // },
+          this.timeplayed = 0;
+      }
+      this.myBall.physObj.ApplyImpulse(new b2Vec2(0,2.45), this.myBall.physObj.GetPosition());
+  },
 
   addBallForForceTesting: function () {
       var ball = new Ball();
@@ -117,7 +124,31 @@ var myPlayground = cc.Scene.extend({
     // myCave.createTunnel();
     // myCave.drawDebug();
 
-    layer.schedule(layer.update);
+    // HUD
+    var myHUD = new Hud();
+    this.addChild(myHUD, Zorder.hud, Tags.hud);
+    myHUD.init();
 
+    layer.schedule(layer.update);
+    layer.pauseSchedulerAndActions();
+
+  },
+
+  onHit: function () {
+      this.getChildByTag(Tags.playgroundtag).pauseSchedulerAndActions();
+      this.getChildByTag(Tags.playgroundtag).setTouchEnabled(false);
+      var DeadLayer = new cc.Layer();
+      this.addChild(DeadLayer, Zorder.hud + 1);
+
+      var stuckmsg = cc.LabelTTF.create("Touch to try again", "Impact", 40);
+      var s = cc.Director.getInstance().getWinSize();
+      stuckmsg.setPosition(cc.p(s.width /2 , s.height /2 ));
+      this.addChild(stuckmsg);
+
+      DeadLayer.setTouchEnabled(true);
+      DeadLayer.onTouchesBegan = function (ev) {
+          var newPlayground = new myPlayground();
+          cc.Director.getInstance().replaceScene(newPlayground);
+      };
   }
 });
