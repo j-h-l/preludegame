@@ -44,28 +44,35 @@ var cocos2dApp = cc.Application.extend({
         var resourceSize = cc.size(800, 450);
         var designSize = cc.size(800, 450);
 
-        var searchPaths = [];
-        var resDirOrders = [];
+        // var searchPaths = [];
+        // var resDirOrders = [];
 
-        searchPaths.push("res");
-        cc.FileUtils.getInstance().setSearchPaths(searchPaths);
+        // searchPaths.push("res");
+        // searchPaths.push("res/commonly/jimp");
+        // searchPaths.push("res/commonly/mindchamber");
+        // searchPaths.push("res/commonly/strakat");
+        // cc.FileUtils.getInstance().setSearchPaths(searchPaths);
 
-        var platform = cc.Application.getInstance().getTargetPlatform();
-        if (platform == cc.TARGET_PLATFORM.MOBILE_BROWSER) {
-            if (screenSize.height > 450) {
-                resDirOrders.push("HD");
-            }
-            else {
-                resourceSize = cc.size(400, 225);
-                designSize = cc.size(400, 225);
-                resDirOrders.push("Normal");
-            }
-        }
-        else if (platform == cc.TARGET_PLATFORM.PC_BROWSER) {
-            resDirOrders.push("HD");
-        }
+        // var platform = cc.Application.getInstance().getTargetPlatform();
+        // if (platform == cc.TARGET_PLATFORM.MOBILE_BROWSER) {
+        //     if (screenSize.height > 450) {
+        //         resDirOrders.push("HD");
+        //     }
+        //     else {
+        //         resourceSize = cc.size(400, 225);
+        //         designSize = cc.size(400, 225);
+        //         resDirOrders.push("Normal");
+        //     }
+        // }
+        // else if (platform == cc.TARGET_PLATFORM.PC_BROWSER) {
+        //     resDirOrders.push("HD");
+        // }
+        // resDirOrders.push("");
+        // resDirOrders.push("jimp");
+        // resDirOrders.push("mindchamber");
+        // resDirOrders.push("strakat");
 
-        cc.FileUtils.getInstance().setSearchResolutionsOrder(resDirOrders);
+        // cc.FileUtils.getInstance().setSearchResolutionsOrder(resDirOrders);
 
         director.setContentScaleFactor(resourceSize.width / designSize.width);
 

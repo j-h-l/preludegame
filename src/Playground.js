@@ -53,7 +53,7 @@ var Playground = cc.Layer.extend({
       // update tunnel drawing
       var tun = this.getParent().getChildByTag(Tags.cavestag);
       tun.updateTunnel();
-      
+
       // update timeplayed
       this.timeplayed += dt;
       var dist = this.getParent().getChildByTag(Tags.hud);
@@ -62,6 +62,9 @@ var Playground = cc.Layer.extend({
 
       this.myPhysicsManager.checkContact();
   },
+
+  playSound: function () {
+  }
 
   onTouchesBegan: function (ev) {
       if (this.getScheduler().isTargetPaused(this) && this.timeplayed === null) {
@@ -140,7 +143,7 @@ var myPlayground = cc.Scene.extend({
       var DeadLayer = new cc.Layer();
       this.addChild(DeadLayer, Zorder.hud + 1);
 
-      var stuckmsg = cc.LabelTTF.create("Touch to try again", "Impact", 40);
+      var stuckmsg = cc.LabelTTF.create("Click to try again", "Impact", 40);
       var s = cc.Director.getInstance().getWinSize();
       stuckmsg.setPosition(cc.p(s.width /2 , s.height /2 ));
       this.addChild(stuckmsg);
