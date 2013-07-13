@@ -43,6 +43,10 @@ var Playground = cc.Layer.extend({
       cc.log("emitter created");
   },
 
+  differentParticleEmitter: function () {
+
+  },
+
   update: function (dt) {
       // update physics manager
       this.myPhysicsManager.stepForward();
@@ -63,18 +67,28 @@ var Playground = cc.Layer.extend({
       this.myPhysicsManager.checkContact();
   },
 
-  playSound: function () {
-  }
+  playMusic: function () {
+      cc.log("start playing sound");
+      cc.AudioEngine.getInstance().playMusic(xylophone_mp3, true);
+  },
+
+  stopMusic: function () {
+      cc.log("stop playing music");
+      cc.AudioEngine.getInstance().stopMusic();
+  },
 
   onTouchesBegan: function (ev) {
       if (this.getScheduler().isTargetPaused(this) && this.timeplayed === null) {
           this.resumeSchedulerAndActions();
+          this.playMusic();
           this.removeChildByTag("click");
           this.getParent().getChildByTag(Tags.hud).startDisplayingDistance();
 
           this.timeplayed = 0;
+
       }
-      this.myBall.physObj.ApplyImpulse(new b2Vec2(0,2.45), this.myBall.physObj.GetPosition());
+      // this.myBall.physObj.ApplyImpulse(new b2Vec2(0,2.45), this.myBall.physObj.GetPosition());
+      this.myBall.flap();
   },
 
   addBallForForceTesting: function () {
@@ -142,6 +156,7 @@ var myPlayground = cc.Scene.extend({
       this.getChildByTag(Tags.playgroundtag).setTouchEnabled(false);
       var DeadLayer = new cc.Layer();
       this.addChild(DeadLayer, Zorder.hud + 1);
+      this.getChildByTag(Tags.playgroundtag).stopMusic();
 
       var stuckmsg = cc.LabelTTF.create("Click to try again", "Impact", 40);
       var s = cc.Director.getInstance().getWinSize();

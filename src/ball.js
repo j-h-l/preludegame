@@ -36,6 +36,13 @@ var Ball = cc.Sprite.extend({
         }
     },
 
+    flap: function () {
+        this.physObj.ApplyImpulse(new b2Vec2(0, 2.45), this.physObj.GetPosition());
+        // will need to add check for mp3 or ogg
+        var flapClips = [s_swing2_mp3, s_swing3_mp3];
+        cc.AudioEngine.getInstance().playEffect(flapClips[Math.floor(Math.random()*2)], false);
+    },
+
     updateEntity: function () {
         var pManager = this.getParent().myPhysicsManager;
         var newPos = pManager.convertToPixels(this.physObj.GetPosition());
