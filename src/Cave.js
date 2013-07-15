@@ -18,6 +18,13 @@ var Cave = cc.Layer.extend({
             lower: null,
         }
     },
+    numSections: 12,   // number of segments of tunnel
+    tunnel: [],
+    lastSection: {
+        top: null,
+        bottom: null
+    },
+    jMultplier: 100,
 
     init: function () {
         this._super();
@@ -29,8 +36,68 @@ var Cave = cc.Layer.extend({
         this.sizeOfObject = this.getParent().getChildByTag(Tags.playgroundtag).myBall.sizeOfObject;
 
         this.initCaves();
+        // this.initTunnels();
 
         this.setTouchEnabled(false);
+    },
+
+    initTunnels: function () {
+        var s = cc.Director.getInstance().getWinSize();
+        var blockDef = {
+            bodyType: "kinematic",
+            position: {
+                x: null,
+                y: null
+            },
+            shape: "noisy",
+            setFix: {
+                friction: 0.5,
+                restitution: 1.2
+            },
+            halfWidth: null,     //hW and hH depends on number of sections
+            halfHeight: null,
+            userData: {
+                tag: null,
+                offset: {
+                    x: null,
+                    y: null
+                },
+                drawnode: null,
+                verts: []
+            }
+        };
+        var centerPoints = this.centerPoints(s.height/2, this.numSections);
+
+
+        var eTunnel = 0;
+        for (eTunnel; eTunnel < (this.numSections - 2); eTunnel++) {
+            var eachSection = {
+                top: null,
+                bottom: null
+            };
+            for (torb in eachSection) {
+                if (torb === "top") {
+                    if (eachSection[torb] === null) {
+                        
+                    }
+                }
+                else { // bottom
+                    if (eachSection[torb] === null) {
+                    }
+                }
+            }
+        }
+
+    },
+
+    centerPoints: function (startPos, numSec) {
+        var randomized = this.noisyPoints(numSec);
+        var centerPoints = [];
+        var i = 0;
+        for (i ; i < randomized.length; i++) {
+            centerPoints[i] = centerPoints[i-1] + this.jMultplier * randomized[i] || s.height/2;
+        }
+        return centerPoints;
     },
 
     initCaves: function (caveDef) {
@@ -40,7 +107,7 @@ var Cave = cc.Layer.extend({
             bodyType: "kinematic",
             position: {
                 x: s.width /3,
-                // y: s.height
+                // y: - s.height /3
                 y: 1
             },
             shape: "noisy",
@@ -49,9 +116,10 @@ var Cave = cc.Layer.extend({
                 restitution: 1.2
             },
             halfWidth: s.width /2,
+            // halfHeight: (s.height * 2/3) -50,
             halfHeight: 15,
             numberOfJags: 1,
-            jaggyMultiplier: 10,
+            jaggyMultiplier: 100,
             userData: {
                 tag: Tags.bottom1,
                 offset: {
@@ -67,14 +135,15 @@ var Cave = cc.Layer.extend({
         };
         
         // alpha lower
-        customDef = this.noisyVertices(customDef);
-        this.caves.alpha.lower = this.getParent().getChildByTag(Tags.worldtag).addBody(customDef);
+        customDef1 = this.noisyVertices(customDef);
+        this.caves.alpha.lower = this.getParent().getChildByTag(Tags.worldtag).addBody(customDef1);
         // cc.log(this.getParent().getChildByTag(Tags.worldtag).convertToPixels(this.caves.alpha.lower.GetPosition()));
         this.caves.alpha.lower.SetLinearVelocity(new b2Vec2(-this.currentSpeed, 0));
         
         // alpha upper
         customDef.position = {
             x: s.width /3,
+            // y: s.height + (s.height /3)
             y: s.height
         };
         customDef.userData = {
@@ -84,38 +153,42 @@ var Cave = cc.Layer.extend({
             drawnode: null,
             verts: []
         };
-        customDef = this.noisyVertices(customDef);
-        this.caves.alpha.upper = this.getParent().getChildByTag(Tags.worldtag).addBody(customDef);
+        customDef2 = this.noisyVertices(customDef);
+        this.caves.alpha.upper = this.getParent().getChildByTag(Tags.worldtag).addBody(customDef2);
         this.caves.alpha.upper.SetLinearVelocity(new b2Vec2(-this.currentSpeed, 0));
 
         // beta lower
         customDef.position = {
             x: (s.width* 4 / 3),// + s.width,
             y: 1
+            // y: - s.height /3
         };
         customDef.userData = {
             tag: Tags.bottom2,
             offset: customDef.position,
             nodename: "betalower",
+            drawnode: null,
             verts: []
         };
-        customDef = this.noisyVertices(customDef);
-        this.caves.beta.lower = this.getParent().getChildByTag(Tags.worldtag).addBody(customDef);
+        customDef3 = this.noisyVertices(customDef);
+        this.caves.beta.lower = this.getParent().getChildByTag(Tags.worldtag).addBody(customDef3);
         this.caves.beta.lower.SetLinearVelocity(new b2Vec2(-this.currentSpeed, 0));
 
         // beta upper
         customDef.position = {
             x: (s.width * 4 / 3),//+ s.width,
+            // y: s.height + (s.height /3)
             y: s.height
         };
         customDef.userData = {
             tag: Tags.top2,
             offset: customDef.position,
             nodename: "betaupper",
+            drawnode: null,
             verts: []
         };
-        customDef = this.noisyVertices(customDef);
-        this.caves.beta.upper = this.getParent().getChildByTag(Tags.worldtag).addBody(customDef);
+        customDef4 = this.noisyVertices(customDef);
+        this.caves.beta.upper = this.getParent().getChildByTag(Tags.worldtag).addBody(customDef4);
         this.caves.beta.upper.SetLinearVelocity(new b2Vec2(-this.currentSpeed, 0));
         this.drawTunnel();
     },
@@ -145,7 +218,9 @@ var Cave = cc.Layer.extend({
         for ( r ; r <= sections; r++) {
             var temp = cc.p(0,0);
             temp.x = startingPos.x + ((s.width / sections) * r);
-            temp.y = startingPos.y - this.closingrate*((s.height /sections) * r);// - 0*Math.abs(noise[r-1]*jFactor));
+            // var checky = startingPos.y - this.closingrate*(((s.height /sections) * r) - (noise[r-1]*jFactor));
+            // temp.y = checky < nVerts.slice(-1)[0].y ? nVerts.slice(-1)[0].y : checky;
+            temp.y = startingPos.y - this.closingrate*((s.height /sections) * r);// - Math.abs(noise[r-1]*jFactor));
             nVerts.push(temp);
         }
         // add top right vertice
@@ -161,7 +236,7 @@ var Cave = cc.Layer.extend({
         // var a = [cc.p(0,55), cc.p(s.width,55), cc.p(s.width,-85), cc.p(0,-85)];
         entityDef.userData.verts = nVerts;
         // cc.log("nVerts: ");
-        // cc.log(nVerts);
+        cc.log(entityDef);
         return entityDef;
     },
 
@@ -191,6 +266,7 @@ var Cave = cc.Layer.extend({
             for (alphaBeta in this.caves) {
                 for (ab in this.caves[alphaBeta]) {
                     if (this.caves[alphaBeta][ab] !== null) {
+                    // cc.log(this.caves[alphaBeta][ab].m_fixtureList.m_userData);
 
                     // var offset = world.convertToPixels(currentCaveData.offset);
                     // var currentPos = this.getChildByTag(nodename).getPosition();
@@ -202,7 +278,7 @@ var Cave = cc.Layer.extend({
 
                         var newPosition = new b2Vec2(bodyPosition.x + 2*s.width/world.MtoPRatio, bodyPosition.y);
                         this.caves[alphaBeta][ab].SetPosition(newPosition);
-                        // cc.log("tada");
+                        cc.log("tada");
                     }
                     
                     var currentCaveData = this.caves[alphaBeta][ab].m_fixtureList.m_userData;
@@ -246,6 +322,7 @@ var Cave = cc.Layer.extend({
         for (e in this.caves[c]) {
             if (this.caves[c][e] !== null) {
                 var partCave = this.caves[c][e];
+                cc.log(partCave.m_fixtureList.m_userData);
                 var partTag = partCave.m_fixtureList.m_userData.tag;
                 var partOffset = physicsManager.convertToMeters(partCave.m_fixtureList.m_userData.offset);
                 var partNode = partCave.m_fixtureList.m_userData.nodename;
@@ -264,7 +341,7 @@ var Cave = cc.Layer.extend({
                     var eachV = 0;
                     for (eachV ; eachV < vertices.length ; eachV++) {
                         var absoluteVect = {};
-                        if (vertices.length <= 4) {
+                        if (vertices.length <= 8) {
                             absoluteVec = {
                                 x: currentBodyPos.x + vertices[eachV].x,
                                 y: currentBodyPos.y + vertices[eachV].y
@@ -280,7 +357,7 @@ var Cave = cc.Layer.extend({
                     // cc.log(ccpArray);
                     poly.drawPoly(ccpArray, cc.c4f(1,0,1,1), 1, cc.c4f(0,1,0,1));
                     // cc.log("inside drawTunnel (ccpArray): (relative to drawnode)");
-                    // cc.log(ccpArray);
+                    cc.log(ccpArray);
                     // cc.log("drawnode position");
                     // cc.log(poly.getPosition());
                 }

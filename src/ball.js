@@ -1,13 +1,14 @@
 var Ball = cc.Sprite.extend({
     physObj: null,
     sizeOfBall: null,
+    flyingAnimation: null,
 
     // ctr: function () {
     //     this._super();
     // },
 
     init: function (pos, myPhysicsManager) {
-        this.initWithFile(s_ball);//, cc.rect(0,0,45,45));
+        // this.initWithFile(s_ball);//, cc.rect(0,0,45,45));
         this.sizeOfBall = 45;
 
         var s = cc.Director.getInstance().getWinSize();
@@ -26,7 +27,7 @@ var Ball = cc.Sprite.extend({
                 restitution: 9.2
             },
             shape: "circle",
-            shapeRadius: 23,
+            shapeRadius: 36,
             userData: {
                 tag: Tags.balltag
             }
@@ -34,13 +35,41 @@ var Ball = cc.Sprite.extend({
         if (this.physObj === null) {
             this.physObj = myPhysicsManager.addBody(entityDef);
         }
+
+        // load sprites
+        // cc.SpriteFrameCache.getInstance().addSpriteFramesWithJson(Fluppit_json);
+        cc.SpriteFrameCache.getInstance().addSpriteFrames(s_flupp_plist);
+
+        var spriteSheet = new cc.SpriteBatchNode();
+        spriteSheet.initWithFile(s_flupp);
+        this.addChild(spriteSheet);
+
+        this.initWithSpriteFrameName("Fluppit_00.png");
+        this.setFlipX(true);
+
+        var flyingArray = [];
+        var frame = 0;
+        for (frame; frame < 10; frame++) {
+            var f = cc.SpriteFrameCache.getInstance().getSpriteFrame("Fluppit_0" + frame + ".png");
+            flyingArray.push(f);
+        }
+
+        this.flyingAnimation = new cc.Animation();
+        this.flyingAnimation.initWithSpriteFrames(flyingArray, 0.04, true);
+        // this.flyingAnimation.setLoops(true);
+        
+        this.runAction(cc.RepeatForever.create(cc.Animate.create(this.flyingAnimation)));
+        // spriteSheet.addChild(this);
     },
 
     flap: function () {
-        this.physObj.ApplyImpulse(new b2Vec2(0, 2.45), this.physObj.GetPosition());
+        this.physObj.ApplyImpulse(new b2Vec2(0, 2.15), this.physObj.GetPosition());
         // will need to add check for mp3 or ogg
         var flapClips = [s_swing2_mp3, s_swing3_mp3];
         cc.AudioEngine.getInstance().playEffect(flapClips[Math.floor(Math.random()*2)], false);
+        // if (this.flyingAnimation.isDone()) {
+        //     this.runAction(cc.Animate.create(this.flyingAnimation));
+        // }
     },
 
     updateEntity: function () {

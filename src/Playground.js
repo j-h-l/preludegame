@@ -13,21 +13,14 @@ var Playground = cc.Layer.extend({
 
     var imin = cc.LabelTTF.create("Click to start your journey...", "Impact", 38);
     imin.setPosition(cc.p(s.width/2, s.height/2));
-    // this.addChild(imin, 1);
     this.addChild(imin, Zorder.hud, "click");
 
-    // var something = cc.LabelTTF.create("Second item", "Impact", 38);
-    // something.setPosition(cc.p(s.width/2, 30));
-    // this.addChild(something, 1);
-    //
-    // var menuItem1 = cc.MenuItemFont.create("Create particle emitter", this.createEmitter, this);
-    // menuItem1.setPosition(cc.p(s.width - 170, 100));
-    // var menu = cc.Menu.create(menuItem1);
-    // menu.setPosition(cc.p(1,1));
-    // this.addChild(menu, 1);
+    // var bground = cc.TextureCache.getInstance().addImage(bg_gravel);
+    // this.addChild(bground, Zorder.hud);
 
     this.addBallForForceTesting();
-    this.createEmitter();
+    // this.createEmitter();
+    this.differentParticleEmitter();
 
     this.setTouchEnabled(true);
     // this.schedule(this.update);
@@ -44,6 +37,111 @@ var Playground = cc.Layer.extend({
   },
 
   differentParticleEmitter: function () {
+      var s = cc.Director.getInstance().getWinSize();
+      // Particle configuration
+      // ----------------------
+      var emitter = new cc.ParticleSystemQuad();
+      emitter.initWithTotalParticles(223);
+      // max_particles: 223
+      // lifespan: 0.461
+      // lifespan_variance: 4.671
+      // start_size: 0
+      // start_size_variance: 16
+      // finish_size: 40
+      // finish_size_variance: 0
+      // particle_emit_angle: 239
+      // particle_emit_angle_variance: 116
+      // rotation_start: 0
+      // rotation_start_variance: 0
+      // rotation_end: 0
+      // rotation_end_variance: 0
+      // emitter.setParticleCount(223); // quantity of particles being simulated
+      // emitter.setTotalParticles(223); // maximum number of particles of the system
+      emitter.setLife(0.461);
+      emitter.setLifeVar(4.671);
+      emitter.setStartSize(0);
+      emitter.setStartSizeVar(16);
+      emitter.setEndSize(40);
+      emitter.setEndSizeVar(0);
+      emitter.setAngle(239);
+      emitter.setAngleVar(116);
+      // do not need to set rotation values, as they are defaulted to 0
+
+      // =============================
+      // background color
+      // ----------------
+      // red: 0
+      // green: 0
+      // blue: 0
+
+      // =============================
+      // emittertype : Mode A
+      // -----------
+      // Gravity
+      // duration: -1.00
+      emitter.setDuration(-1); //forever
+      // =============================
+      // Gravity Configuration
+      // ---------------------
+      // speed: 0
+      // speed_variance: 0
+      // gravity_x: 20
+      // gravity_y: 0
+      // radial_acceleration: 0
+      // radial_acceleration_variance: 0
+      // tangential_acceleration: 0
+      // tangential_acceleration_variance: 0
+      emitter.modeA = new cc.Particle.ModeA();
+      emitter.setSpeed(0);
+      emitter.setSpeedVar(0);
+      emitter.setGravity(cc.p(-20,0));
+      emitter.setRadialAccel(0);
+      emitter.setRadialAccelVar(0);
+      emitter.setTangentialAccel(0);
+      emitter.setTangentialAccelVar(0);
+      // ==============================
+      // Emitter Location
+      // ----------------
+      // source_pos_y: 265
+      // variance: -64
+      // source_pos_x: 539
+      // variance: 544
+      // emitter.setSourcePosition(cc.p(539, 265));
+      // emitter.setPosVar(cc.p(544,-64));
+      emitter.setSourcePosition(cc.p(s.width/2, s.height/2));
+      emitter.setPosVar(cc.p(100, -64));
+      // ===============================
+      // Particle Color
+      // --------------
+      // Start rgba
+      // 0.62, 1, 0, 0.15
+      // Finish
+      // 0.91, 1, 0.91, 0
+      // Start variance
+      // 1, 1, 1, 0
+      // Finish variance
+      // 0.78, 0.86, 0.94, 0
+      // -------------------
+      emitter.setStartColor(cc.c4f(0.62, 1, 0, 0.15));
+      emitter.setStartColorVar(cc.c4f(1, 1, 1, 0));
+      emitter.setEndColor(cc.c4f(0.91, 1, 0.91, 0));
+      emitter.setEndColorVar(cc.c4f(0.78, 0.86, 0.94, 0));
+      // Blend function
+      // --------------
+      // source: GL_SRC_ALPHA
+      // destination: GL_ONE
+      emitter.setBlendFunc(gl.SRC_ALPHA, gl.ONE);
+      // normal
+      // additive
+      emitter.setBlendAdditive(true);
+      // emitter.setTexture(cc.TextureCache.getInstance().addImage(s_star));
+      emitter.setTexture(cc.TextureCache.getInstance().addImage(s_wdot));
+      // var image = new cc.Texture2D();
+      // emitter.setPosition(cc.p(s.width/2, s.height/2));
+      emitter.setPosition(cc.p(0,0));
+      emitter.setEmissionRate(30);
+      this.addChild(emitter, Zorder.far_back);
+      cc.log("started emitter");
 
   },
 

@@ -44,7 +44,8 @@
             'src/ball.js',
             'src/Cave.js',
             'src/Misc.js',
-            'src/HUD.js'
+            'src/HUD.js',
+            // 'src/Fluppit.js'
             // 'src/Box2dDebug.js',
             // 'src/IntroMenu.js',
             // 'src/StageSelect.js',
