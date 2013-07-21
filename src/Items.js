@@ -8,7 +8,7 @@ var ItemsLayer = cc.Layer.extend({
 
   init: function () {
     // at set interval, insertConsumable
-    this.intervals = 5;
+    this.intervals = 3;
     this.schedule(this.insertConsumable, this.intervals);
   },
 
