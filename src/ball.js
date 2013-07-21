@@ -2,7 +2,7 @@ var Ball = cc.Sprite.extend({
     physObj: null,
     sizeOfBall: null,
     flyingAnimation: null,
-    flapStrength: 3.15,
+    flapStrength: 3.05,
     numItemsConsumed: 0,
 
     // ctr: function () {
