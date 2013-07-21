@@ -21,7 +21,7 @@ var Playground = cc.Layer.extend({
 
     this.addBallForForceTesting();
     this.createRainEmitter();
-    this.differentParticleEmitter();
+    // this.differentParticleEmitter();
 
     this.setTouchEnabled(true);
     // this.schedule(this.update);
@@ -271,6 +271,9 @@ var myPlayground = cc.Scene.extend({
       this.getChildByTag(Tags.items).pauseSchedulerAndActions();
       var DeadLayer = new cc.Layer();
       this.addChild(DeadLayer, Zorder.hud + 1);
+
+      this.getChildByTag(Tags.playgroundtag).differentParticleEmitter();
+
       var gameoverScreen = cc.Sprite.create(s_gameover);
       gameoverScreen.setPosition(cc.p(s.width / 2, s.height /2));
       gameoverScreen.setScale(0);
