@@ -132,6 +132,10 @@ var Playground = cc.Layer.extend({
       var dist = this.getParent().getChildByTag(Tags.hud);
       dist.updateDist(this.timeplayed.toFixed(3));
       // cc.log(this.timeplayed.toFixed(3));
+      
+      // update items if it exists
+      var items = this.getParent().getChildByTag(Tags.items);
+      items.update();
 
       this.myPhysicsManager.checkContact();
   },
@@ -234,14 +238,35 @@ var myPlayground = cc.Scene.extend({
 
   onHit: function () {
       function tryAgainMsg() {
+          var d = cc.Director.getInstance().getRunningScene();
+
           var stuckmsg = cc.LabelTTF.create("Click to try again", "Impact", 40);
-          stuckmsg.setPosition(cc.p(s.width /2 , s.height /2 ));
-          this.addChild(stuckmsg);
+          stuckmsg.setPosition(cc.p(s.width /2 , s.height /2 - 80));
+          this.addChild(stuckmsg, Zorder.text);
+
+          var endTime = d.getChildByTag(Tags.playgroundtag).timeplayed;
+          var numItems = d.getChildByTag(Tags.playgroundtag).myBall.numItemsConsumed;
+          var totalScore;
+          if (numItems > 0) {
+              totalScore = (endTime * numItems) * 100;
+          }
+          else {
+              totalScore = (endTime * 100) * 100;
+          }
+          totalScore = totalScore.toFixed(0);
+          var scoreTxt = "Total score for this run: " + totalScore;
+
+          var scoreLabel = cc.LabelTTF.create(scoreTxt, "Impact", 34);
+          scoreLabel.setPosition(cc.p(s.width /2, s.height / 2 +10));
+          this.addChild(scoreLabel, Zorder.text);
       }
 
       var s = cc.Director.getInstance().getWinSize();
       this.getChildByTag(Tags.playgroundtag).pauseSchedulerAndActions();
       this.getChildByTag(Tags.playgroundtag).setTouchEnabled(false);
+
+      cc.Director.getInstance().getRunningScene().getChildByTag(Tags.hud).removeChildByTag("time");
+      cc.Director.getInstance().getRunningScene().getChildByTag(Tags.hud).removeChildByTag("dist");
 
       this.getChildByTag(Tags.items).pauseSchedulerAndActions();
       var DeadLayer = new cc.Layer();
@@ -249,7 +274,7 @@ var myPlayground = cc.Scene.extend({
       var gameoverScreen = cc.Sprite.create(s_gameover);
       gameoverScreen.setPosition(cc.p(s.width / 2, s.height /2));
       gameoverScreen.setScale(0);
-      DeadLayer.addChild(gameoverScreen);
+      DeadLayer.addChild(gameoverScreen, Zorder.hud);
 
       // Set up actions for game over screen
       var rotate = cc.RotateBy.create(1, 2*360);

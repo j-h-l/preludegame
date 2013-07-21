@@ -100,7 +100,8 @@ var PhysicsManager = cc.Layer.extend({
         if (entityDef.shape === "noisy") {
             var s = cc.Director.getInstance().getWinSize();
             var scaledArray = [];
-            for (var a = 0; a<entityDef.userData.verts.length; a++) {
+            var a = 0;
+            for (a ; a<entityDef.userData.verts.length; a++) {
                 scaledArray.push(
                     this.convertToMeters(
                         cc.p(entityDef.userData.verts[a].x,// - s.width,
@@ -149,21 +150,50 @@ var PhysicsManager = cc.Layer.extend({
     },
 
     stepForward: function () {
+        // this.boxworld.Step(
+        //     this.PHYSICS_LOOP,
+        //     6,                //velocity iterations
+        //     2                 //position iterations
+        // );
+        //
+        // this.showContact();
+        // this.checkContact();
+        var body = this.boxworld.GetBodyList();
+        while (body) {
+            if (body !== null && 
+                body.m_fixtureList !== null && 
+                body.m_fixtureList.m_userData.tag === Tags.itemtag) {
+                var g = this.boxworld.GetGravity();
+                var counterG = new b2Vec2(body.GetMass() * g.x, -body.GetMass() * g.y);
+                // body.ApplyForce(counterG , body.GetWorldCenter());
+                body.ApplyForce(counterG, body.GetPosition());
+                // this.boxworld.ClearForces();
+            }
+            body = body.GetNext();
+        }
         this.boxworld.Step(
             this.PHYSICS_LOOP,
             6,                //velocity iterations
             2                 //position iterations
         );
-        // this.showContact();
-        // this.checkContact();
         this.boxworld.ClearForces();
     },
 
     checkContact: function () {
         var con = this.boxworld.GetContactList();
         if (con !== null && con.IsTouching()) {
-            this.getParent().onHit();
+            var one = con.m_fixtureA.m_userData.tag;
+            var two = con.m_fixtureB.m_userData.tag;
+            if (one === Tags.itemtag || two === Tags.itemtag) {
+                var consum = one === Tags.itemtag ? con.m_fixtureA.m_userData.sprite : con.m_fixtureB.m_userData.sprite;
+                consum.useAbility();
+            }
+            else {
+                this.getParent().onHit();
+            }
         }
+
+
     },
 
     showContact: function () {

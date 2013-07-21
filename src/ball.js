@@ -2,6 +2,8 @@ var Ball = cc.Sprite.extend({
     physObj: null,
     sizeOfBall: null,
     flyingAnimation: null,
+    flapStrength: 3.15,
+    numItemsConsumed: 0,
 
     // ctr: function () {
     //     this._super();
@@ -29,7 +31,8 @@ var Ball = cc.Sprite.extend({
             shape: "circle",
             shapeRadius: 36,
             userData: {
-                tag: Tags.balltag
+                tag: Tags.balltag,
+                sprite: this
             }
         };
         if (this.physObj === null) {
@@ -47,6 +50,11 @@ var Ball = cc.Sprite.extend({
         this.initWithSpriteFrameName("Fluppit_00.png");
         this.setFlipX(true);
 
+        this.flappingAnimation();
+
+    },
+
+    flappingAnimation: function () {
         var flyingArray = [];
         var frame = 0;
         for (frame; frame < 10; frame++) {
@@ -63,13 +71,21 @@ var Ball = cc.Sprite.extend({
     },
 
     flap: function () {
-        this.physObj.ApplyImpulse(new b2Vec2(0, 2.15), this.physObj.GetPosition());
+        this.physObj.ApplyImpulse(new b2Vec2(0, this.flapStrength), this.physObj.GetPosition());
         // will need to add check for mp3 or ogg
         var flapClips = [s_swing2_mp3, s_swing3_mp3];
         cc.AudioEngine.getInstance().playEffect(flapClips[Math.floor(Math.random()*2)], false);
         // if (this.flyingAnimation.isDone()) {
         //     this.runAction(cc.Animate.create(this.flyingAnimation));
         // }
+    },
+
+    setFlapStrength: function (strength) {
+        this.flapStrength = strength;
+    },
+
+    getFlapStrength: function () {
+        return this.flapStrength;
     },
 
     updateEntity: function () {

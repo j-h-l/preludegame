@@ -24,11 +24,12 @@ Tags = {
 Zorder = {
     background: 0,
     far_back: -1,
-    player: 1,
-    platform: 2,
-    items: 3,
-    effects: 4,
-    hud: 5
+    items: 1,
+    effects: 2,
+    platform: 3,
+    player: 4,
+    hud: 5,
+    text: 6
 };
 
 // simple implementation of Perlin Noise
