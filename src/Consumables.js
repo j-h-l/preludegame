@@ -25,7 +25,7 @@ var consumable = cc.Sprite.extend({
 
 
 var Heavy = consumable.extend({
-    growthFactor: 1.06,
+    growthFactor: 1.09,
 
     ctor: function () {
         this._super();
@@ -37,8 +37,8 @@ var Heavy = consumable.extend({
         var s = d.getWinSize();
         var myPhysicsManager = d.getRunningScene().getChildByTag(Tags.worldtag);
 
-        this.speed = 1;
-        this.speedVar = 0.3;
+        this.speed = 4;
+        this.speedVar = 0.5;
 
         this.setUpAppearance();
 

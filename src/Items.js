@@ -16,11 +16,11 @@ var ItemsLayer = cc.Layer.extend({
     var s = cc.Director.getInstance().getWinSize();
     var makeHeavy = new Heavy();
     this.addChild(makeHeavy, Zorder.items, Tags.itemtag);
-    makeHeavy.init(cc.p(s.width, s.height/2 + Math.random() * 150));
+    makeHeavy.init(cc.p(s.width, s.height/2 + (Math.random()*2 -1) * 150));
 
     //move it across
     // var dw = cc.Director.getInstance().getRunningScene().getChildByTag(Tags.worldtag);
-    makeHeavy.physObj.SetLinearVelocity(new b2Vec2(-2,0));
+    makeHeavy.physObj.SetLinearVelocity(new b2Vec2(- makeHeavy.speed + (Math.random()*2 -1) * makeHeavy.speedVar ,0));
     
 
   },
