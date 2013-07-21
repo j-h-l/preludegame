@@ -2,7 +2,7 @@ var Cave = cc.Layer.extend({
     distanceTraveled: null,
     tileCount: null,
     tunnelSize: null,
-    closingrate: 0.1,
+    closingrate: 0.05,
     _cavesDrawn: false,
 
     currentSpeed: 6,
@@ -41,55 +41,55 @@ var Cave = cc.Layer.extend({
         this.setTouchEnabled(false);
     },
 
-    initTunnels: function () {
-        var s = cc.Director.getInstance().getWinSize();
-        var blockDef = {
-            bodyType: "kinematic",
-            position: {
-                x: null,
-                y: null
-            },
-            shape: "noisy",
-            setFix: {
-                friction: 0.5,
-                restitution: 1.2
-            },
-            halfWidth: null,     //hW and hH depends on number of sections
-            halfHeight: null,
-            userData: {
-                tag: null,
-                offset: {
-                    x: null,
-                    y: null
-                },
-                drawnode: null,
-                verts: []
-            }
-        };
-        var centerPoints = this.centerPoints(s.height/2, this.numSections);
+    // initTunnels: function () {
+    //     var s = cc.Director.getInstance().getWinSize();
+    //     var blockDef = {
+    //         bodyType: "kinematic",
+    //         position: {
+    //             x: null,
+    //             y: null
+    //         },
+    //         shape: "noisy",
+    //         setFix: {
+    //             friction: 0.5,
+    //             restitution: 1.2
+    //         },
+    //         halfWidth: null,     //hW and hH depends on number of sections
+    //         halfHeight: null,
+    //         userData: {
+    //             tag: null,
+    //             offset: {
+    //                 x: null,
+    //                 y: null
+    //             },
+    //             drawnode: null,
+    //             verts: []
+    //         }
+    //     };
+    //     var centerPoints = this.centerPoints(s.height/2, this.numSections);
 
 
-        var eTunnel = 0;
-        for (eTunnel; eTunnel < (this.numSections - 2); eTunnel++) {
-            var eachSection = {
-                top: null,
-                bottom: null
-            };
-            var torb;
-            for (torb in eachSection) {
-                if (torb === "top") {
-                    if (eachSection[torb] === null) {
-                        
-                    }
-                }
-                else { // bottom
-                    if (eachSection[torb] === null) {
-                    }
-                }
-            }
-        }
+    //     var eTunnel = 0;
+    //     for (eTunnel; eTunnel < (this.numSections - 2); eTunnel++) {
+    //         var eachSection = {
+    //             top: null,
+    //             bottom: null
+    //         };
+    //         var torb;
+    //         for (torb in eachSection) {
+    //             if (torb === "top") {
+    //                 if (eachSection[torb] === null) {
+    //                     
+    //                 }
+    //             }
+    //             else { // bottom
+    //                 if (eachSection[torb] === null) {
+    //                 }
+    //             }
+    //         }
+    //     }
 
-    },
+    // },
 
     centerPoints: function (startPos, numSec) {
         var randomized = this.noisyPoints(numSec);
@@ -118,7 +118,7 @@ var Cave = cc.Layer.extend({
             },
             halfWidth: s.width /2,
             // halfHeight: (s.height * 2/3) -50,
-            halfHeight: 15,
+            halfHeight: 25,
             numberOfJags: 1,
             jaggyMultiplier: 100,
             userData: {

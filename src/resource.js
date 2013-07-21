@@ -31,6 +31,12 @@ var s_swing2_mp3 = base + commonly_dir + mindchamber + "PK_swing2.mp3";
 var s_swing2_ogg = base + commonly_dir + mindchamber + "PK_swing2.ogg";
 var s_swing3_mp3 = base + commonly_dir + mindchamber + "PK_swing3.mp3";
 var s_swing3_ogg = base + commonly_dir + mindchamber + "PK_swing3.ogg";
+
+var soundfx = "soundfx/";
+var s_bigger_mp3 = base + soundfx + "bigger.mp3";
+var s_bigger_ogg = base + soundfx + "bigger.ogg";
+var s_pickup_mp3 = base + soundfx + "pickup.mp3";
+var s_pickup_ogg = base + soundfx + "pickup.ogg";
 // bgm
 var strakat = "strakat/";
 var xylophone_mp3 = base + commonly_dir + strakat + "xylophone (loop).mp3";
@@ -64,5 +70,9 @@ var g_ressources = [
 
     //effect
     {src:xylophone_mp3},
-    {src:xylophone_ogg}
+    {src:xylophone_ogg},
+    {src:s_bigger_mp3},
+    {src:s_bigger_ogg},
+    {src:s_pickup_mp3},
+    {src:s_pickup_ogg}
 ];

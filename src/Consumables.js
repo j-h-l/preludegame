@@ -89,7 +89,7 @@ var Heavy = consumable.extend({
         // when there is a collision, update player with ability and remove itself
         // cc.log("useAbility");
         var b = cc.Director.getInstance().getRunningScene().getChildByTag(Tags.playgroundtag).myBall;
-        b.setFlapStrength(b.getFlapStrength() - 0.15);
+        b.setFlapStrength(b.getFlapStrength() - 0.19);
         b.numItemsConsumed += 1;
 
         // make player bigger (fatter in animation later)
@@ -101,7 +101,9 @@ var Heavy = consumable.extend({
         b.physObj.GetFixtureList().GetShape().SetRadius(currentRadius * this.growthFactor);
 
         // play sound effect
-        //
+        cc.AudioEngine.getInstance().playEffect(s_pickup_mp3, false);
+        cc.AudioEngine.getInstance().playEffect(s_bigger_mp3, false);
+
 
         this.physObj.GetWorld().DestroyBody(this.physObj);
         this.removeFromParent(this);
