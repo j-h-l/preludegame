@@ -298,7 +298,7 @@ var Cave = cc.Layer.extend({
                 var partNode = partCave.m_fixtureList.m_userData.nodename;
 
                 var poly = cc.DrawNode.create();
-                this.addChild(poly, Zorder.platform, partNode);
+                this.addChild(poly, Zorder.platform + 1, partNode);
 
                 var b = partCave.m_fixtureList;
                 if (b.m_shape !== null && b.m_shape.b2PolygonShape !== undefined) {

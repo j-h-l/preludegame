@@ -10,6 +10,8 @@ var s_ball = base + hd + "ball.png";
 var s_star = base + hd + "star.png";
 var s_wdot = base + hd + "whitedot.png";
 var s_gameover = base + hd + "GameOver.png";
+var s_simpleback = base + hd + "simpleback2.png";
+
 
 var commonly_dir = "commonly/";
 // spritesheet

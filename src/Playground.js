@@ -11,6 +11,10 @@ var Playground = cc.Layer.extend({
     this._super();
     var s = cc.Director.getInstance().getWinSize();
 
+    var simplebackground = cc.Sprite.create(s_simpleback);
+    simplebackground.setPosition(cc.p(s.width/2, s.height/2));
+    this.addChild(simplebackground, Zorder.far_back);
+
     var imin = cc.LabelTTF.create("Click to start your journey...", "Impact", 38);
     imin.setPosition(cc.p(s.width/2, s.height/2));
     // imin.setColor(cc.white);
@@ -37,7 +41,7 @@ var Playground = cc.Layer.extend({
       // fireEmitter.setEndColor(cc.c4f(0.91, 1, 0.91, 0));
       // fireEmitter.setEndColorVar(cc.c4f(0.78, 0.86, 0.94, 0));
       fireEmitter.setTexture(cc.TextureCache.getInstance().addImage(s_star));
-      this.addChild(fireEmitter, Zorder.far_back, "rainPart");
+      this.addChild(fireEmitter, Zorder.background, "rainPart");
       cc.log("emitter created");
   },
 
@@ -203,7 +207,8 @@ var myPlayground = cc.Scene.extend({
 
 
     // Initialize Playground (main game character layer + touch)
-    var layer = new Playground();
+    // var layer = new Playground();
+    var layer = new Playground(cc.c4b(255,155,0,155));
     layer.myPhysicsManager = myPhysics;
     // layer.myPhysicsManager.boxworld.DrawDebugData();
     this.addChild(layer, Zorder.player, Tags.playgroundtag);
