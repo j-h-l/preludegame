@@ -48,9 +48,7 @@ var cocos2dApp = cc.Application.extend({
         // var resDirOrders = [];
 
         // searchPaths.push("res");
-        // searchPaths.push("res/commonly/jimp");
-        // searchPaths.push("res/commonly/mindchamber");
-        // searchPaths.push("res/commonly/strakat");
+
         // cc.FileUtils.getInstance().setSearchPaths(searchPaths);
 
         // var platform = cc.Application.getInstance().getTargetPlatform();
@@ -67,10 +65,6 @@ var cocos2dApp = cc.Application.extend({
         // else if (platform == cc.TARGET_PLATFORM.PC_BROWSER) {
         //     resDirOrders.push("HD");
         // }
-        // resDirOrders.push("");
-        // resDirOrders.push("jimp");
-        // resDirOrders.push("mindchamber");
-        // resDirOrders.push("strakat");
 
         // cc.FileUtils.getInstance().setSearchResolutionsOrder(resDirOrders);
 

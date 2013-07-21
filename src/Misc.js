@@ -4,9 +4,11 @@ Tags = {
     cavestag: 91,
     playgroundtag: 92,
     hud: 93,
+    items: 94,
 
     // entity
     balltag: 88,
+    itemtag: 89,
 
     bottom1: 76,
     top1: 77,
@@ -24,8 +26,9 @@ Zorder = {
     far_back: -1,
     player: 1,
     platform: 2,
-    effects: 3,
-    hud: 4
+    items: 3,
+    effects: 4,
+    hud: 5
 };
 
 // simple implementation of Perlin Noise
@@ -77,7 +80,7 @@ var PerlinNoise = cc.Node.extend({
         x -= Math.floor(x);
         y -= Math.floor(y);
         z -= Math.floor(z);
-        
+
         // compute fade curves for each of x,y,z
         var u = this.fade(x),
             v = this.fade(y),

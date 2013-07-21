@@ -236,7 +236,7 @@ var Cave = cc.Layer.extend({
         // var a = [cc.p(0,55), cc.p(s.width,55), cc.p(s.width,-85), cc.p(0,-85)];
         entityDef.userData.verts = nVerts;
         // cc.log("nVerts: ");
-        cc.log(entityDef);
+        // cc.log(entityDef);
         return entityDef;
     },
 
@@ -278,7 +278,7 @@ var Cave = cc.Layer.extend({
 
                         var newPosition = new b2Vec2(bodyPosition.x + 2*s.width/world.MtoPRatio, bodyPosition.y);
                         this.caves[alphaBeta][ab].SetPosition(newPosition);
-                        cc.log("tada");
+                        // cc.log("tada");
                     }
                     
                     var currentCaveData = this.caves[alphaBeta][ab].m_fixtureList.m_userData;
@@ -322,7 +322,7 @@ var Cave = cc.Layer.extend({
         for (e in this.caves[c]) {
             if (this.caves[c][e] !== null) {
                 var partCave = this.caves[c][e];
-                cc.log(partCave.m_fixtureList.m_userData);
+                // cc.log(partCave.m_fixtureList.m_userData);
                 var partTag = partCave.m_fixtureList.m_userData.tag;
                 var partOffset = physicsManager.convertToMeters(partCave.m_fixtureList.m_userData.offset);
                 var partNode = partCave.m_fixtureList.m_userData.nodename;
@@ -357,7 +357,7 @@ var Cave = cc.Layer.extend({
                     // cc.log(ccpArray);
                     poly.drawPoly(ccpArray, cc.c4f(1,0,1,1), 1, cc.c4f(0,1,0,1));
                     // cc.log("inside drawTunnel (ccpArray): (relative to drawnode)");
-                    cc.log(ccpArray);
+                    // cc.log(ccpArray);
                     // cc.log("drawnode position");
                     // cc.log(poly.getPosition());
                 }

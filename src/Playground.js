@@ -13,13 +13,14 @@ var Playground = cc.Layer.extend({
 
     var imin = cc.LabelTTF.create("Click to start your journey...", "Impact", 38);
     imin.setPosition(cc.p(s.width/2, s.height/2));
+    // imin.setColor(cc.white);
     this.addChild(imin, Zorder.hud, "click");
 
     // var bground = cc.TextureCache.getInstance().addImage(bg_gravel);
     // this.addChild(bground, Zorder.hud);
 
     this.addBallForForceTesting();
-    // this.createEmitter();
+    this.createRainEmitter();
     this.differentParticleEmitter();
 
     this.setTouchEnabled(true);
@@ -27,12 +28,16 @@ var Playground = cc.Layer.extend({
 
   },
 
-  createEmitter: function () {
+  createRainEmitter: function () {
       var s = cc.Director.getInstance().getWinSize();
       var fireEmitter = cc.ParticleRain.create();
       fireEmitter.setPosition(cc.p(s.width / 2, s.height));
+      // fireEmitter.setStartColor(cc.c4f(0.62, 1, 0, 0.15));
+      // fireEmitter.setStartColorVar(cc.c4f(1, 1, 1, 0));
+      // fireEmitter.setEndColor(cc.c4f(0.91, 1, 0.91, 0));
+      // fireEmitter.setEndColorVar(cc.c4f(0.78, 0.86, 0.94, 0));
       fireEmitter.setTexture(cc.TextureCache.getInstance().addImage(s_star));
-      this.addChild(fireEmitter, Zorder.far_back);
+      this.addChild(fireEmitter, Zorder.far_back, "rainPart");
       cc.log("emitter created");
   },
 
@@ -42,21 +47,6 @@ var Playground = cc.Layer.extend({
       // ----------------------
       var emitter = new cc.ParticleSystemQuad();
       emitter.initWithTotalParticles(223);
-      // max_particles: 223
-      // lifespan: 0.461
-      // lifespan_variance: 4.671
-      // start_size: 0
-      // start_size_variance: 16
-      // finish_size: 40
-      // finish_size_variance: 0
-      // particle_emit_angle: 239
-      // particle_emit_angle_variance: 116
-      // rotation_start: 0
-      // rotation_start_variance: 0
-      // rotation_end: 0
-      // rotation_end_variance: 0
-      // emitter.setParticleCount(223); // quantity of particles being simulated
-      // emitter.setTotalParticles(223); // maximum number of particles of the system
       emitter.setLife(0.461);
       emitter.setLifeVar(4.671);
       emitter.setStartSize(0);
@@ -65,32 +55,13 @@ var Playground = cc.Layer.extend({
       emitter.setEndSizeVar(0);
       emitter.setAngle(239);
       emitter.setAngleVar(116);
-      // do not need to set rotation values, as they are defaulted to 0
 
-      // =============================
-      // background color
-      // ----------------
-      // red: 0
-      // green: 0
-      // blue: 0
-
-      // =============================
       // emittertype : Mode A
       // -----------
-      // Gravity
-      // duration: -1.00
       emitter.setDuration(-1); //forever
       // =============================
-      // Gravity Configuration
+      // Gravity mode Configuration
       // ---------------------
-      // speed: 0
-      // speed_variance: 0
-      // gravity_x: 20
-      // gravity_y: 0
-      // radial_acceleration: 0
-      // radial_acceleration_variance: 0
-      // tangential_acceleration: 0
-      // tangential_acceleration_variance: 0
       emitter.modeA = new cc.Particle.ModeA();
       emitter.setSpeed(0);
       emitter.setSpeedVar(0);
@@ -177,16 +148,22 @@ var Playground = cc.Layer.extend({
 
   onTouchesBegan: function (ev) {
       if (this.getScheduler().isTargetPaused(this) && this.timeplayed === null) {
+          this.timeplayed = 0;
+
           this.resumeSchedulerAndActions();
+          this.getParent().getChildByTag(Tags.items).resumeSchedulerAndActions();
           this.playMusic();
           this.removeChildByTag("click");
           this.getParent().getChildByTag(Tags.hud).startDisplayingDistance();
-
-          this.timeplayed = 0;
-
       }
       // this.myBall.physObj.ApplyImpulse(new b2Vec2(0,2.45), this.myBall.physObj.GetPosition());
       this.myBall.flap();
+      // this.getChildByTag("rainPart").setTangentialAccel(5);
+  },
+
+  onTouchesEnded: function (ev) {
+      // this.getChildByTag("rainPart").setAngle(0);
+      
   },
 
   addBallForForceTesting: function () {
@@ -244,24 +221,53 @@ var myPlayground = cc.Scene.extend({
     this.addChild(myHUD, Zorder.hud, Tags.hud);
     myHUD.init();
 
+    // items Layer
+    var myItemsLayer = new ItemsLayer();
+    this.addChild(myItemsLayer, Zorder.items, Tags.items);
+    myItemsLayer.init();
+    myItemsLayer.pauseSchedulerAndActions();
+
     layer.schedule(layer.update);
     layer.pauseSchedulerAndActions();
 
   },
 
   onHit: function () {
+      function tryAgainMsg() {
+          var stuckmsg = cc.LabelTTF.create("Click to try again", "Impact", 40);
+          stuckmsg.setPosition(cc.p(s.width /2 , s.height /2 ));
+          this.addChild(stuckmsg);
+      }
+
+      var s = cc.Director.getInstance().getWinSize();
       this.getChildByTag(Tags.playgroundtag).pauseSchedulerAndActions();
       this.getChildByTag(Tags.playgroundtag).setTouchEnabled(false);
+
+      this.getChildByTag(Tags.items).pauseSchedulerAndActions();
       var DeadLayer = new cc.Layer();
       this.addChild(DeadLayer, Zorder.hud + 1);
+      var gameoverScreen = cc.Sprite.create(s_gameover);
+      gameoverScreen.setPosition(cc.p(s.width / 2, s.height /2));
+      gameoverScreen.setScale(0);
+      DeadLayer.addChild(gameoverScreen);
+
+      // Set up actions for game over screen
+      var rotate = cc.RotateBy.create(1, 2*360);
+      var makeOriginalSize = cc.ScaleTo.create(1, 1);
+      var fade = cc.FadeIn.create(0.5);
+      // enable touch after the animation
+      var addTexts = cc.CallFunc.create(tryAgainMsg, this);
+      var enableTouch = cc.CallFunc.create(DeadLayer.setTouchEnabled, DeadLayer, true);
+      var spawn = cc.Spawn.create(rotate, makeOriginalSize, fade);
+      var seq = cc.Sequence.create(spawn, addTexts, enableTouch);
+
+      gameoverScreen.runAction(seq);
+
+
       this.getChildByTag(Tags.playgroundtag).stopMusic();
 
-      var stuckmsg = cc.LabelTTF.create("Click to try again", "Impact", 40);
-      var s = cc.Director.getInstance().getWinSize();
-      stuckmsg.setPosition(cc.p(s.width /2 , s.height /2 ));
-      this.addChild(stuckmsg);
 
-      DeadLayer.setTouchEnabled(true);
+      // DeadLayer.setTouchEnabled(true);
       DeadLayer.onTouchesBegan = function (ev) {
           var newPlayground = new myPlayground();
           cc.Director.getInstance().replaceScene(newPlayground);

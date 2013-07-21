@@ -9,6 +9,7 @@ var s_greyStar = base + hd + "greystar.png";
 var s_ball = base + hd + "ball.png";
 var s_star = base + hd + "star.png";
 var s_wdot = base + hd + "whitedot.png";
+var s_gameover = base + hd + "GameOver.png";
 
 var commonly_dir = "commonly/";
 // spritesheet
@@ -46,6 +47,7 @@ var g_ressources = [
     {src:s_star},
     {src:s_wdot},
     {src:bg_paper},
+    {src:s_gameover},
     // {src:s_flub},
     {src:s_flupp},
 

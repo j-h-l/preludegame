@@ -40,12 +40,13 @@
         appFiles:[
             'src/resource.js',
             'src/Playground.js',
-            'src/boxWorldSetup.js',
-            'src/ball.js',
+            'src/BoxWorldSetup.js',
+            'src/Ball.js',
             'src/Cave.js',
             'src/Misc.js',
             'src/HUD.js',
-            // 'src/Fluppit.js'
+            'src/Consumables.js',
+            'src/Items.js'
             // 'src/Box2dDebug.js',
             // 'src/IntroMenu.js',
             // 'src/StageSelect.js',
