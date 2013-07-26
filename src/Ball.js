@@ -16,6 +16,7 @@ var Ball = cc.Sprite.extend({
         var s = cc.Director.getInstance().getWinSize();
         this.setPositionX(pos.x);
         this.setPositionY(pos.y);
+        this.setScale(0.5);
 
         var entityDef = {
             bodyType: "dynamic",
@@ -29,7 +30,7 @@ var Ball = cc.Sprite.extend({
                 restitution: 9.2
             },
             shape: "circle",
-            shapeRadius: 36,
+            shapeRadius: 18,
             userData: {
                 tag: Tags.balltag,
                 sprite: this
@@ -37,6 +38,11 @@ var Ball = cc.Sprite.extend({
         };
         if (this.physObj === null) {
             this.physObj = myPhysicsManager.addBody(entityDef);
+
+            var catAndMaskP = new b2FilterData();
+            catAndMaskP.categoryBits = EntityCategory.player;
+            catAndMaskP.maskBits = EntityCategory.ground + EntityCategory.items;
+            this.physObj.GetFixtureList().SetFilterData(catAndMaskP);
         }
 
         // load sprites

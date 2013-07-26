@@ -39,6 +39,8 @@ var s_bigger_mp3 = base + soundfx + "bigger.mp3";
 var s_bigger_ogg = base + soundfx + "bigger.ogg";
 var s_pickup_mp3 = base + soundfx + "pickup.mp3";
 var s_pickup_ogg = base + soundfx + "pickup.ogg";
+var s_put_mp3 = base + soundfx + "put.mp3";
+var s_put_ogg = base + soundfx + "put.ogg";
 // bgm
 var strakat = "strakat/";
 var xylophone_mp3 = base + commonly_dir + strakat + "xylophone (loop).mp3";
@@ -76,5 +78,7 @@ var g_ressources = [
     {src:s_bigger_mp3},
     {src:s_bigger_ogg},
     {src:s_pickup_mp3},
-    {src:s_pickup_ogg}
+    {src:s_pickup_ogg},
+    {src:s_put_mp3},
+    {src:s_put_ogg}
 ];

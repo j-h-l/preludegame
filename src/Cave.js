@@ -138,6 +138,11 @@ var Cave = cc.Layer.extend({
         // alpha lower
         customDef1 = this.noisyVertices(customDef);
         this.caves.alpha.lower = this.getParent().getChildByTag(Tags.worldtag).addBody(customDef1);
+
+        var catAndMask1 = new b2FilterData();
+        catAndMask1.categoryBits = EntityCategory.ground;
+        catAndMask1.maskBits = EntityCategory.player;
+        this.caves.alpha.lower.GetFixtureList().SetFilterData(catAndMask1);
         this.caves.alpha.lower.SetLinearVelocity(new b2Vec2(-this.currentSpeed, 0));
         
         // alpha upper
@@ -155,6 +160,10 @@ var Cave = cc.Layer.extend({
         };
         customDef2 = this.noisyVertices(customDef);
         this.caves.alpha.upper = this.getParent().getChildByTag(Tags.worldtag).addBody(customDef2);
+        var catAndMask2 = new b2FilterData();
+        catAndMask2.categoryBits = EntityCategory.ground;
+        catAndMask2.maskBits = EntityCategory.player;
+        this.caves.alpha.upper.GetFixtureList().SetFilterData(catAndMask2);
         this.caves.alpha.upper.SetLinearVelocity(new b2Vec2(-this.currentSpeed, 0));
 
         // beta lower
@@ -171,6 +180,10 @@ var Cave = cc.Layer.extend({
         };
         customDef3 = this.noisyVertices(customDef);
         this.caves.beta.lower = this.getParent().getChildByTag(Tags.worldtag).addBody(customDef3);
+        var catAndMask3 = new b2FilterData();
+        catAndMask3.categoryBits = EntityCategory.ground;
+        catAndMask3.maskBits = EntityCategory.player;
+        this.caves.beta.lower.GetFixtureList().SetFilterData(catAndMask3);
         this.caves.beta.lower.SetLinearVelocity(new b2Vec2(-this.currentSpeed, 0));
 
         // beta upper
@@ -187,6 +200,10 @@ var Cave = cc.Layer.extend({
         };
         customDef4 = this.noisyVertices(customDef);
         this.caves.beta.upper = this.getParent().getChildByTag(Tags.worldtag).addBody(customDef4);
+        var catAndMask4 = new b2FilterData();
+        catAndMask4.categoryBits = EntityCategory.ground;
+        catAndMask4.maskBits = EntityCategory.player;
+        this.caves.beta.upper.GetFixtureList().SetFilterData(catAndMask4);
         this.caves.beta.upper.SetLinearVelocity(new b2Vec2(-this.currentSpeed, 0));
         this.drawTunnel();
     },

@@ -41,8 +41,10 @@ var cocos2dApp = cc.Application.extend({
         // var canvasSize = document.getElementById(this.config.tag);
         // var screenSize = cc.size(canvasSize.width, canvasSize.height);
         var screenSize = cc.EGLView.getInstance().getFrameSize();
-        var resourceSize = cc.size(800, 450);
-        var designSize = cc.size(800, 450);
+        // var resourceSize = cc.size(800, 450);
+        // var designSize = cc.size(800, 450);
+        var resourceSize = cc.size(480, 320);
+        var designSize = cc.size(480, 320);
 
         // var searchPaths = [];
         // var resDirOrders = [];

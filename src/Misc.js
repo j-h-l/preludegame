@@ -1,3 +1,4 @@
+TheCount = 0;
 Tags = {
     // layers
     worldtag: 90,
@@ -30,6 +31,12 @@ Zorder = {
     platform: 5,
     hud: 7,
     text: 8
+};
+
+EntityCategory = {
+    player: 0x0001,
+    ground: 0x0002,
+    items: 0x0004
 };
 
 // simple implementation of Perlin Noise

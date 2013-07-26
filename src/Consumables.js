@@ -49,8 +49,10 @@ var Heavy = consumable.extend({
             bodyType: "dynamic",
             // bodyType: "kinematic",
             position: {
-                x: this.getPositionX(),
-                y: this.getPositionY()
+                // x: this.getPositionX(),
+                // y: this.getPositionY()
+                x: pos.x,
+                y: pos.y
             },
             setFix: {
                 // density: 1.0,
@@ -58,17 +60,23 @@ var Heavy = consumable.extend({
                 restitution: 9.2
             },
             shape: "circle",
-            shapeRadius: 23,
+            shapeRadius: 12,
             userData: {
                 tag: Tags.itemtag,
                 type: "heavier",
-                sprite: this
+                sprite: this,
+                count:TheCount
             }
         };
         if (this.physObj === null) {
             this.physObj = myPhysicsManager.addBody(entityDef);
+            TheCount +=1;
             // this.physObj.SetGravityScale(0);
             this.physObj.GetFixtureList().SetSensor(true);
+            var catAndMask = new b2FilterData();
+            catAndMask.categoryBits = EntityCategory.items;
+            catAndMask.maskBits = EntityCategory.player;
+            this.physObj.GetFixtureList().SetFilterData(catAndMask);
         }
 
 
@@ -76,6 +84,7 @@ var Heavy = consumable.extend({
 
     setUpAppearance: function () {
         this.initWithFile(s_ball);
+        this.setScale(0.5);
 
         // emit unique particles // subtle effect
         // var s = cc.Director.getInstance().getWinSize();
@@ -88,7 +97,8 @@ var Heavy = consumable.extend({
     useAbility: function () {
         // when there is a collision, update player with ability and remove itself
         // cc.log("useAbility");
-        var b = cc.Director.getInstance().getRunningScene().getChildByTag(Tags.playgroundtag).myBall;
+        // var b = cc.Director.getInstance().getRunningScene().getChildByTag(Tags.playgroundtag).myBall;
+        var b = this.fetchPlayer();
         b.setFlapStrength(b.getFlapStrength() - 0.19);
         b.numItemsConsumed += 1;
 
@@ -104,14 +114,25 @@ var Heavy = consumable.extend({
         cc.AudioEngine.getInstance().playEffect(s_pickup_mp3, false);
         cc.AudioEngine.getInstance().playEffect(s_bigger_mp3, false);
 
+        cc.log(this.physObj.GetFixtureList().GetUserData().count);
+        cc.log("sprite position: " + this.getPosition().x);
+        cc.log("physObj position: " + this.physObj.GetPosition().x);
 
         this.physObj.GetWorld().DestroyBody(this.physObj);
         this.removeFromParent(this);
     },
 
     updatePosition: function () {
+        var s = cc.Director.getInstance().getWinSize();
         var pManager = cc.Director.getInstance().getRunningScene().getChildByTag(Tags.worldtag);
 
-        this.setPosition(pManager.convertToPixels(this.physObj.GetPosition()));
+        var newPos = pManager.convertToPixels(this.physObj.GetPosition());
+        this.setPosition(newPos);
+
+        // destory body off screen to the left
+        if (newPos.x < -20) {
+            this.physObj.GetWorld().DestroyBody(this.physObj);
+            this.removeFromParent(this);
+        }
     }
 });

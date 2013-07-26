@@ -302,6 +302,7 @@ var myPlayground = cc.Scene.extend({
 
       // DeadLayer.setTouchEnabled(true);
       DeadLayer.onTouchesBegan = function (ev) {
+          TheCount = 0;
           var newPlayground = new myPlayground();
           cc.Director.getInstance().replaceScene(newPlayground);
       };

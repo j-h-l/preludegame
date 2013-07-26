@@ -6,13 +6,15 @@ var b2FixtureDef = Box2D.Dynamics.b2FixtureDef;
 var b2CircleShape = Box2D.Collision.Shapes.b2CircleShape;
 var b2PolygonShape = Box2D.Collision.Shapes.b2PolygonShape;
 var b2Vec2 = Box2D.Common.Math.b2Vec2;
+var b2FilterData = Box2D.Dynamics.b2FilterData;
+
 var b2DebugDraw = Box2D.Dynamics.b2DebugDraw;
 var b2MassData = Box2D.Collision.Shapes.b2MassData;
 
 var PhysicsManager = cc.Layer.extend({
     // todo: optimize scaling for movement
     boxworld: null,
-    MtoPRatio: 50,
+    MtoPRatio: 32,
 
     PHYSICS_LOOP: 1.0 / 60.0,
 
@@ -184,7 +186,11 @@ var PhysicsManager = cc.Layer.extend({
         if (con !== null && con.IsTouching()) {
             var one = con.m_fixtureA.m_userData.tag;
             var two = con.m_fixtureB.m_userData.tag;
-            if (one === Tags.itemtag || two === Tags.itemtag) {
+            // var oneFilter = con.m_fixtureA.GetFilterData();
+            // var twoFilter = con.m_fixtureB.GetFilterData();
+
+            if ((one === Tags.itemtag && two === Tags.balltag) ||
+                (one === Tags.balltag && two === Tags.itemtag)) {
                 var consum = one === Tags.itemtag ? con.m_fixtureA.m_userData.sprite : con.m_fixtureB.m_userData.sprite;
                 consum.useAbility();
             }

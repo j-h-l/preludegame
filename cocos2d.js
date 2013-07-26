@@ -27,11 +27,11 @@
 (function () {
     var d = document;
     var c = {
-        COCOS2D_DEBUG:0, //0 to turn debug off, 1 for basic debug, and 2 for full debug
-        CLASS_RELEASE_MODE:true,  // improved version of resig's js inheritance. performance increase but cannot set breakpoint with objects that use this._super()
+        COCOS2D_DEBUG:2, //0 to turn debug off, 1 for basic debug, and 2 for full debug
+        // CLASS_RELEASE_MODE:true,  // improved version of resig's js inheritance. performance increase but cannot set breakpoint with objects that use this._super()
         box2d:true,
         chipmunk:false,
-        showFPS:false,
+        showFPS:true,
         loadExtension:false,
         frameRate:60,
         tag:'gameCanvas', //the dom element to run cocos2d on
@@ -64,7 +64,8 @@
         p.style.border = 'none';
         p.insertBefore(s);
 
-        d.body.style.background = '#ffffff';
+        // d.body.style.background = '#ffffff';
+        d.body.style.background = '#000000';
         return;
     }
 
