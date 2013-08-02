@@ -2,24 +2,20 @@ var base = "res/";
 var hd = "HD/";
 
 var s_HelloWorld = base + hd + "HelloWorld.png";
-var s_CloseNormal = base + hd + "CloseNormal.png";
-var s_CloseSelected = base + hd + "CloseSelected.png";
 var s_greyStar = base + hd + "greystar.png";
 
 var s_ball = base + hd + "ball.png";
 var s_star = base + hd + "star.png";
 var s_wdot = base + hd + "whitedot.png";
 var s_gameover = base + hd + "GameOver.png";
-var s_simpleback = base + hd + "simpleback2.png";
+var s_simpleback = base + hd + "background.png";
 
 
 var commonly_dir = "commonly/";
 // spritesheet
 var jimp = "jimp/";
-// var s_flub = base + commonly_dir + jimp + "Fluppit/Fluppit.png";
 var s_flupp = base + commonly_dir + jimp + "Fluppit/flupp2.png";
 var s_flupp_plist = base + commonly_dir + jimp + "Fluppit/flupp2.plist";
-// var s_flub_json = base + commonly_dir + jimp + "Fluppit/Fluppit.json";
 
 // Background
 var bg_paper = base + "creampaper/creampaper.png";
@@ -50,8 +46,6 @@ var xylophone_ogg = base + commonly_dir + strakat + "xylophone (loop).ogg";
 var g_ressources = [
     //image
     {src:s_HelloWorld},
-    {src:s_CloseNormal},
-    {src:s_CloseSelected},
     {src:s_greyStar},
     {src:s_ball},
     {src:s_star},

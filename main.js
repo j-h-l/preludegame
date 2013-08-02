@@ -70,9 +70,9 @@ var cocos2dApp = cc.Application.extend({
 
         // cc.FileUtils.getInstance().setSearchResolutionsOrder(resDirOrders);
 
-        director.setContentScaleFactor(resourceSize.width / designSize.width);
+        // director.setContentScaleFactor(resourceSize.width / designSize.width);
 
-        cc.EGLView.getInstance().setDesignResolutionSize(designSize.width, designSize.height, cc.RESOLUTION_POLICY.SHOW_ALL);
+        // cc.EGLView.getInstance().setDesignResolutionSize(designSize.width, designSize.height, cc.RESOLUTION_POLICY.SHOW_ALL);
 
         // turn on display FPS
         director.setDisplayStats(this.config['showFPS']);

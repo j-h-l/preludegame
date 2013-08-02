@@ -27,18 +27,19 @@
 (function () {
     var d = document;
     var c = {
-        COCOS2D_DEBUG:2, //0 to turn debug off, 1 for basic debug, and 2 for full debug
-        // CLASS_RELEASE_MODE:true,  // improved version of resig's js inheritance. performance increase but cannot set breakpoint with objects that use this._super()
+        COCOS2D_DEBUG:0, //0 to turn debug off, 1 for basic debug, and 2 for full debug
+        CLASS_RELEASE_MODE:true,  // improved version of resig's js inheritance. performance increase but cannot set breakpoint with objects that use this._super()
         box2d:true,
         chipmunk:false,
-        showFPS:true,
+        showFPS:false,
         loadExtension:false,
         frameRate:60,
         tag:'gameCanvas', //the dom element to run cocos2d on
-        engineDir:'cocos2d/',
-        //SingleEngineFile:'', // remember to use min ver after done dev'ing
+        // engineDir:'cocos2d/',
+        SingleEngineFile:'lib/Cocos2d-html5-v2.1.4.min.js', // remember to use min ver after done dev'ing
         appFiles:[
             'src/resource.js',
+            'box2d/box2d.js',
             'src/Playground.js',
             'src/BoxWorldSetup.js',
             'src/Ball.js',
